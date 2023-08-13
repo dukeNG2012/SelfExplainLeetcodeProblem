@@ -1,0 +1,38 @@
+/*
+- Give you array [1,2,3,4], K = 4, x = 3; -> find K closest element
+test 1: [1,2,3,4], K  =4, x = 3 -> 1,2,3,4
+test2: x = -1, K = 4 -> 1,2,3,4
+
+
+*/
+/*
+- Method: using 2 pointer
+*/
+class Solution {
+    
+    private List<Integer> newlist = new ArrayList<>();
+    public List<Integer> findClosestElements(int[] arr, int k, int x) {
+        int left = 0;
+// To make sure that k is < arr.length
+        int right = arr.length-k;
+        
+        while(left < right)
+        {
+            int mid = left + (right-left)/2;
+            // compare from mid to mid+k
+            if(x - arr[mid] > arr[mid+k] - x)
+            {
+                left = mid+1;
+            }
+            else
+            {
+                right = mid;
+            }
+        }
+        for(int i = left; i < left+k; ++i)
+        {
+            newlist.add(arr[i]);
+        }
+        return newlist;
+    }
+}
