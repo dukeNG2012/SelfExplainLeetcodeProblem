@@ -1,0 +1,45 @@
+class Solution {
+    void Swap(int[] arr, int i, int j)
+    {
+        int temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
+    }
+    int Partition(int[] arr, int low, int high)
+    {
+        int pivot = arr[high];
+        int i = low-1;
+
+        for(int j = low; j < high; ++j)
+        {
+            if(arr[j] < pivot)
+            {
+                i++;
+                Swap(arr, i, j);
+            }
+            
+        }
+        Swap(arr,i+1,high);
+        return i+1;
+    }
+    void QuickSort(int[] arr, int low, int high)
+    {
+        if(low < high)
+        {
+            int par = Partition(arr,low,high);
+            QuickSort(arr,low,par-1);
+            QuickSort(arr,par+1,high);
+        }
+    }
+    public int findKthLargest(int[] nums, int k) {
+        QuickSort(nums,0,nums.length-1);
+        for(int i = 0; i < nums.length; ++i)
+        {
+            System.out.print(nums[i] + " ");
+        }
+        
+        int result = 0;
+        result = nums[nums.length-k];
+        return result;
+    }
+}
