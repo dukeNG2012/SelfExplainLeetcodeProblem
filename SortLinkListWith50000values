@@ -1,0 +1,96 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+        ListNode GetMiddle(ListNode head) // get the middle of linked list
+        {
+            if(head == null)
+            {
+                return head;
+            }
+            ListNode slow = head, fast = head;
+            while(fast.next != null && fast.next.next != null)
+            {
+                slow = slow.next;
+                fast = fast.next.next;
+            }
+            return slow;
+        }
+        ListNode MergeSort(ListNode head)
+        {
+            if(head == null || head.next == null)
+            {
+                return head;
+            }
+            ListNode middle = GetMiddle(head);
+            ListNode NextOfMiddle = middle.next;
+            middle.next = null;
+            ListNode left = MergeSort(head);
+            ListNode right = MergeSort(NextOfMiddle);
+
+            ListNode SortedList = Merge(left,right);
+            return SortedList;
+        }
+        ListNode Merge(ListNode left, ListNode right)
+        {
+            ListNode result = null;
+            if(left == null)
+            {
+                return right;
+            }
+            if(right == null)
+            {
+                return left;
+            }
+            if(left.val <= right.val)
+            {
+                result = left;
+                result.next = Merge(left.next, right);
+            }
+            else
+            {
+                result = right;
+                result.next = Merge(left, right.next);
+            }
+            return result;
+
+        }
+    public ListNode sortList(ListNode head) {
+        
+        // int temp = 0;
+        // ListNode head2 = null;
+        // if(head == null)
+        // {
+        //     return head;
+        // }
+        // ListNode current = head;
+        // while(current != null)
+        // {
+        //     head2 = current.next;
+        //     while(head2 != null)
+        //     {   
+        //         if(current.val >= head2.val)
+        //         {
+        //             temp = current.val;
+        //             current.val = head2.val;
+        //             head2.val = temp;
+        //         }
+        //         head2 = head2.next;
+        //     }
+        //     current = current.next;
+        // }
+        
+        // using merge sort:
+        head = MergeSort(head);
+        
+        
+        return head;
+    }
+}
