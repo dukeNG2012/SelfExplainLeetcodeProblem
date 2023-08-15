@@ -1,0 +1,121 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode partition(ListNode head, int x) {
+    //     // ListNode Smaller = new ListNode();
+    //     // ListNode Equal = new ListNode();
+    //     // ListNode Greater = new ListNode();
+    //     ListNode SmallerHead = null;
+    //     ListNode SmallerLast = null;
+    //     ListNode EqualHead = null;
+    //     ListNode EqualLast = null;
+    //     ListNode GreaterHead = null;
+    //     ListNode GreaterLast = null;
+
+    //     // Tại sao ở đây lại phải dùng 2 con trỏ head và last? 
+    //     // mục đích là để quản lý rõ ràng phần đầu và phần cuối của linked list.
+    //     while(head != null)
+    //     {
+    //         if(head.val < x)
+    //         {
+    //             if(SmallerHead == null)
+    //             {
+    //                 SmallerHead = SmallerLast = head;
+    //             }
+    //             SmallerLast.next = head;
+    //             SmallerLast = head;
+    //         }
+    //         else if(head.val == x)
+    //         {
+    //             if(EqualHead == null)
+    //             {
+    //                 EqualHead = EqualLast = head;
+    //             }
+    //             EqualLast.next = head;
+    //             EqualLast = EqualLast.next; // tại sao ở đây lại không gán equallast = head?
+    //         }
+    //         else
+    //         {
+    //             if(GreaterHead == null)
+    //             {
+    //                 GreaterHead = GreaterLast = head;
+    //             }
+    //             GreaterLast.next = head;
+    //             GreaterLast = head;
+    //         }
+    //         head = head.next;
+    //     }
+
+    //     if(GreaterLast != null)
+    //     {
+    //         GreaterLast.next = null;
+    //     }
+    //     // concate 3 linked list:
+    //     // truong hop 1: list smaller empty. Nếu như equal cũng empty thì trả về greater.
+    //     // nếu không thì nối chúng lại bằng cách .next = head. Sau đó trả về đầu thằng kia
+    //     if(SmallerHead == null)
+    //     {
+    //         if(EqualHead == null)
+    //         {
+    //             return GreaterHead;
+    //         }
+    //         // else
+    //         // {
+    //             EqualLast.next = GreaterHead;
+    //             return EqualHead;
+    //         // }
+    //     }
+
+    //     // trường hợp 2: nếu như mà smaller list không empty mà equal empty:
+    //     if(EqualHead == null)
+    //     {
+    //         // if(SmallerHead == null)
+    //         // {
+    //         //     return GreaterHead;
+    //         // }
+    //         // else
+    //         // {
+    //             SmallerLast.next = GreaterHead;
+    //             return SmallerHead;
+    //         //}
+    //     }
+    //     // neu nhu ca smaller va equal deu khong empty:
+    //     SmallerLast.next = EqualHead;
+    //     EqualLast.next = GreaterHead;
+
+    //     return SmallerHead;
+    // }
+    ListNode left = new ListNode();
+    ListNode right = new ListNode();
+    ListNode lefttail = left; // leftlast pointer
+    ListNode righttail = right; // right lastpointer
+
+    while(head != null)
+    {
+        if(head.val < x)
+        {
+            lefttail.next = head;
+            lefttail = lefttail.next;
+        }
+        else
+        {
+            righttail.next = head;
+            righttail = righttail.next;
+        }
+        head = head.next;
+    }
+
+    // merge
+    lefttail.next = right.next; // khi trỏ vào thằng right.next là mình đã skip đi cái số 0 chèn vào giữa rồi. 
+    righttail.next = null; // nếu không set con trỏ next về null thì nó sẽ tạo ra cycle
+    return left.next;
+}
+}
