@@ -1,0 +1,78 @@
+class Solution {
+    public void Heapify(int[] arr, int N, int index)
+    {
+        int max = index;
+        int l = 2*index+1;
+        int r = 2*index + 2;
+        if(l < N && arr[l] > arr[max])
+        {
+            max = l;
+        }
+        if(r < N && arr[r] > arr[max])
+        {
+            max = r;
+        }
+        if(max != index)
+        {
+            int temp = arr[max];
+            arr[max] = arr[index];
+            arr[index] = temp;
+            Heapify(arr,N,max);
+        }
+    }
+    public int BuildHeapAndFindMax(int[] arr, int N)
+    {
+        // i will build a max heap and return root.
+        int StartIndex = N/2 - 1;
+        for(int i = StartIndex; i >= 0; --i)
+        {
+            Heapify(arr,N,i);
+        }
+        return arr[0];
+    }
+    public int[] maxSlidingWindow(int[] nums, int k) {
+        //System.out.println(BuildHeapAndFindMax(nums,nums.length));
+        int j = 0;
+        int[] temparr = new int[k];
+        int[] result = new int[nums.length-k+1];
+        int n = 0;
+        int x = 0;
+        int[] testarr = new int[10];
+        // trong truong hop j no chay quanh : neu nhu j == 4:
+        while(j < nums.length-k+1)
+        {
+            for(int i = j; i < j+k; ++i)
+            {
+                temparr[n] = nums[i];
+                n++;
+                //testarr[j] = nums[i];
+                
+            }
+            result[x] = BuildHeapAndFindMax(temparr,temparr.length);
+            x++;
+            j++;
+            n = 0;
+        }
+        return result;
+    }
+}
+
+// the above code is fail!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! because not end well with k = 50000 although i have max heap :////
+class Solution {
+    public int[] maxSlidingWindow(int[] nums, int k) {
+        
+        if (nums == null || nums.length == 0 || k <= 0) return new int[0];
+        int[] result = new int[nums.length - k + 1];
+        Deque<Integer> deque = new ArrayDeque<>();
+        for (int i = 0; i < nums.length; i++) {
+            while (!deque.isEmpty() && deque.peekFirst() < i - k + 1)    deque.pollFirst();            
+            while (!deque.isEmpty() && nums[deque.peekLast()] < nums[i])    deque.pollLast();
+            deque.offerLast(i);             
+            if (i >= k - 1)  result[i - k + 1] = nums[deque.peekFirst()];
+        }        
+        return result;
+        
+        // Tôi thực sự không hiểu solution này đang viết gì. Hiện tại đang chuẩn bị thi tín hiệu
+        // hệ thống nên tôi nhờ Đức Tương lai giải hộ nhé <3
+    }
+}
