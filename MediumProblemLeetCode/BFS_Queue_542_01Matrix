@@ -1,0 +1,62 @@
+Ý tưởng:
+Đầu tiên, quét qua cả ma trận. Đẩy tất cả tọa độ có chứa số 0 vào queue. gắn cờ tất cả số 1. 
+Khi mà queue.isEmpty() != null:
+  int cell[] = tọa độ pop ra từ queue.
+  int r = cell[0]
+  int c = cell[1]
+  For int[] dir : directions:
+  int r_new = r + dir[0];
+  int c_new = c + dir[1];
+  IF (nó vẫn giữ khoảng cách && tọa độ new > tọa độ current + 1)
+      tọa độ new = tọa độ old + 1;
+      queue.add(int[]{i,j});
+
+class Solution {
+    public int[][] updateMatrix(int[][] mat) {
+        // đầu tiên setup 1 queue có tọa độ của tất cả số 0.
+        int m = mat.length;
+        int n = mat[0].length;
+
+        // setup Queue
+
+        Queue<int[]> queue = new ArrayDeque<>(); 
+        // Queue<int[]> có nghĩa là Queue của bạn có thể offer nguyên cả array vô mồm
+        for(int i = 0; i < m; ++i)
+        {
+            for(int j = 0; j < n; ++j)
+            {
+                if(mat[i][j] == 0)
+                {
+                    queue.add(new int[]{i,j}); // lúc này nó sẽ kiểu:
+                    //  queue = {{i,j}, {i1,j1}, {i2,j2}};
+                }
+                else
+                {
+                    mat[i][j] = 9999; // đặt là một giá trị cực đại nào đó.
+                }
+            }
+        }
+
+        int[][] direction = {{0,1}, {0,-1}, {1,0},{-1,0}};
+
+        while(!queue.isEmpty())
+        {
+            int[] cell = queue.poll(); // array này có 2 phần tử là tọa độ.
+            int r = cell[0];
+            int c = cell[1];
+            for(int[] dir : direction) // có nghĩa là lấy từng cặp i,j một
+            {
+                int r_new = r + dir[0]; // check xem nếu tiến , lùi trái phải
+                int c_new = c + dir[1];
+if(r_new >= 0 && r_new < m && c_new >= 0 && c_new < n && mat[r_new][c_new] > mat[r][c]  + 1)
+                {
+                    
+                    mat[r_new][c_new] = mat[r][c] + 1;
+                    queue.add(new int[] {r_new,c_new});
+                }
+            }
+
+        }
+        return mat;
+    }
+}
