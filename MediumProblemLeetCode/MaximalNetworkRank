@@ -1,0 +1,31 @@
+class Solution {
+    public int maximalNetworkRank(int n, int[][] roads) {
+        // Bạn cần đếm xem mỗi đỉnh có bao nhiêu cạnh đi với nó?
+        // ý tưởng là mỗi lần thấy xuất hiện số đó là chắc chắn có 1 cạnh nối với nó.
+        int[] count = new int[n];
+        int MaTranKe[][] = new int[n][n];
+
+        for(int[] r : roads)
+        {
+            count[r[0]]++; // r[0]: Nó trả về từng giá trị theo cột dọc 0 mỗi lần lặp
+            count[r[1]]++;
+            MaTranKe[r[0]][r[1]] = 1; // tạo ma trận kề nếu có giá trị là 1. Ko thì là 0.
+            MaTranKe[r[1]][r[0]] = 1;
+        }
+        int rank = 0;
+        // Tìm ra rank max của từng thằng. Ở đây for j = i + 1 vì ta không muốn phải soát lại những đỉnh đã đi qua. Ví dụ 1,2 và 2,1 là không được tính.
+        for(int i = 0; i < n; ++i)
+        {
+            for(int j = i+1; j < n; ++j)
+            {
+                // nghĩa là số cạnh của đỉnh này với số cạnh kề với nó trừ đi 1 lần bị lặp
+               rank = max(rank,count[i] + count[j] - MaTranKe[i][j]); 
+            }
+        }
+        return rank;
+    }
+    public int max(int a, int b)
+    {
+        return a>b ? a:b;
+    }
+}
