@@ -1,14 +1,25 @@
 public class Solution {
     public boolean repeatedSubstringPattern(String s) {
-        int n = s.length();
-        for (int i = 1; i <= n / 2; i++) {
-            if (n % i == 0) {
+        int n = s.length(); // trường hợp aba là bằng 3
+        // lý do ở đây cần từ 1 là vì substring nó sẽ lấy 2 chữ đầu từ string đã cho
+        for (int i = 1; i <= n/2 ; i++) { // chạy đến n/2 để có thể tiết kiệm runtime
+            if (n % i == 0) { // Để cho thằng aba là false luôn
                 String substring = s.substring(0, i);
+                // dry run: 0,1; 0,2; 0,3; 
                 StringBuilder repeated = new StringBuilder();
                 for (int j = 0; j < n / i; j++) {
-                    repeated.append(substring);
+                    repeated.append(substring); // chèn substring vào
+                    // trùng với số lần tạo ra một substring mới. 
+                    // dry run: abab
+                    // 0 - 4; 0 - 2
+                    System.out.println(repeated.toString() + " " + j + "i: " + i);
+                    // mục đích của phương pháp này là: ở ví dụ abab, nếu như mà có substring thì chắc chắn ab sẽ được append với ab tiếp. Và điều này sẽ khiến nó equals(s).
                 }
-                if (repeated.toString().equals(s)) return true;
+                if (repeated.toString().equals(s)) 
+                {
+                    return true;
+                }
+                
             }
         }
         return false;
