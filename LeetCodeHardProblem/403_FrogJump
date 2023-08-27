@@ -1,0 +1,49 @@
+class Solution {
+    public boolean canCross(int[] stones) {
+        HashMap<Integer, HashSet<Integer>> map = new HashMap();
+        int n = stones.length;
+        for(int i = 0; i < n; ++i)
+        {
+            // position and a vector has posiple jump
+            map.put(stones[i], new HashSet<Integer>());
+        }
+        // sau mỗi bước lặp, kt trong toàn bộ posiple jump length
+        map.get(stones[0]).add(0);
+        for(int i = 0; i < n; ++i)
+        {
+            int stone = stones[i]; // 0 1 3 5 6 8 12 17
+            HashSet<Integer> set = map.get(stone); // iterate như danh sách liên kết
+            
+            for(int val : set)
+            {
+                System.out.println(val); // trong val có các bước nhảy 0 1 2 3 4
+                // điều kiện này nghĩa là tính từ vị trí hiện tại + thêm giá trị val (có thể nhảy). 
+                if(val - 1 > 0 && map.containsKey(stone+val-1)) 
+                {
+                    map.get(stone+val-1).add(val-1); // nghĩa là add thêm vị trí nhảy thích hợp cho danh sách LK
+
+                }
+                if(val > 0 && map.containsKey(stone+val)) // nếu như cộng vào mà bằng đúng thằng key đằng sau:
+                {
+                    map.get(stone+val).add(val);
+                }
+                if(map.containsKey(stone+val+1))
+                {
+                    map.get(stone+val+1).add(val+1); // từng điều kiện này sẽ add vào trong phần ngang danh sách
+                }
+
+
+            }
+            // kiểm tra xem đã nhảy hết hòn đá chưa
+            
+        }
+    if(map.get(stones[n-1]).size() > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+    }
+}
