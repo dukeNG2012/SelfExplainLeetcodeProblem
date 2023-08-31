@@ -1,0 +1,50 @@
+// bước 1: Đặt vấn đề
+Đề bài: Bạn có 1 khu vườn chạy từ 0 tới n. Bạn có n+1 cái taps (gọi tạm là cái máy tưới nước). Bạn sẽ muốn dùng số tap ít nhất để tưới được cho toàn bộ cái cây. 
+Bạn có một array ranges[] để có thể tưới được chỗ cây đó. Giờ làm sao để bạn đến được số tap ít nhất để bạn tưới được toàn bộ cây?
+
+Input: n = 5, ranges = [3,4,1,1,0,0]
+Output: 1
+Explanation: The tap at point 0 can cover the interval [-3,3]
+The tap at point 1 can cover the interval [-3,5]
+The tap at point 2 can cover the interval [1,3]
+The tap at point 3 can cover the interval [2,4]
+The tap at point 4 can cover the interval [4,4]
+The tap at point 5 can cover the interval [5,5]
+Opening Only the second tap will water the whole garden [0,5]
+Example 2:
+
+Input: n = 3, ranges = [0,0,0,0]
+Output: -1
+Explanation: Even if you activate all the four taps you cannot water the whole garden.
+
+
+// bước 2: Minh họa vấn đề và lấy ví dụ
+while    for     if             code in if    
+0 < 6    i = 0   0 - 3 < 0 
+                  0+3 > 0          max = 3;
+// bước 3: Đưa ra giải pháp, code giấy và dry run
+class Solution {
+    public int minTaps(int n, int[] ranges) {
+        int count = 0; 
+        int MaxReach = 0, MinReach = 0;
+        while(MaxReach < n)
+        {
+            for(int i = 0; i < ranges.length; ++i)
+            {
+                if(i - ranges[i] <= MinReach && i + ranges[i] >= MaxReach)
+                {
+                    MaxReach = i + ranges[i];
+                }
+            }
+            if(MaxReach == MinReach)
+            {
+                return -1;
+            }
+            count++;
+            MinReach = MaxReach;
+        }
+        return count;
+    }
+}
+// bước 4: code trên máy và debug
+// bước 5: Tối ưu hóa
